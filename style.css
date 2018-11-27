@@ -1,3 +1,8 @@
 body {
     background-image: url("https://ak7.picdn.net/shutterstock/videos/3662057/thumb/1.jpg");
 }
+
+h1 {
+    text-align: center;
+    color: white;
+}

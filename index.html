@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Hangman</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
-<body>
+<body onload="startGame()">
+    <h1>Hangman</h1>
+    <div class="w3-container w3-red" id="guessBox">
+        <input type="text" id="currentLetterGuess" placeholder="Guess a letter" maxlength="1">
+        <button type="button" class="w3-button w3-round w3-white w3-border w3-border-blue" onclick="guessLetter()">Go</button>
+    </div>
+
+    <div class="w3-container w3-blue" id="underscoreList">
+        <p id="blanks"></p><br>
+    </div>
+
+    <div class="w3-container w3-green" id="letters">
+        <p id="guessList">Guessed letters: </p>
+    </div>
 
 </body>
 </html>
