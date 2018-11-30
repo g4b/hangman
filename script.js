@@ -34,11 +34,14 @@ function guessLetter(){
 
 function printWord(word, letter){
     // updates the underscore word
-    var newBlanks = document.getElementById("blanks").innerHTML;
+    var blanks = document.getElementById("blanks").innerHTML;
+    var newBlanks = "";
     for (var i = 0; i < word.length; i++){
-        if (word[i] === letter && newBlanks[i] === "_"){
+        if (word[i] === letter && !hasBeenGuessed(letter)){
             // fills in the letter
-            newBlanks[i] = letter;
+            newBlanks += letter;
+        } else {
+            newBlanks += "_";
         }
     }
     document.getElementById("blanks").innerHTML = newBlanks;
@@ -58,15 +61,6 @@ function hasBeenGuessed(letter){
     return false;
 }
 
-function inWord(word, letter){
-    for (var i = 0; i < word.length; i++){
-        if (word[i] === letter){
-            return true;
-        }
-    }
-    return false;
-}
-
 function populate(){
     var container = document.getElementById("guessBox");
     var select = document.createElement("select");
@@ -80,7 +74,7 @@ function populate(){
     container.appendChild(select);
     var button = document.createElement("button");
     button.setAttribute("class", "w3-button w3-round w3-white w3-border w3-border-blue");
-    button.setAttribute("onclick", "guessLetter()");
+    button.onclick = function () { guessLetter() };
     button.innerHTML = "Go";
     container.appendChild(button);
 }
