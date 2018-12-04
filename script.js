@@ -19,13 +19,9 @@ function startGame(){
 
 function guessLetter(){
     var letter = document.getElementById("currentLetterGuess").value;
-    if (GUESSES > 0 && !hasBeenGuessed(letter)){
+    if (GUESSES > 0){
         printWord(WORD, letter);
         GUESSES--;
-    } else if (hasBeenGuessed(letter)){
-        alert("You have already guessed that letter. Please choose another one.");
-        // if letter has been guessed already, I don't take away a second guess
-        return null;
     } else {
         alert("You have used up all of your guesses. Please reload the page and try again.");
         return null;
@@ -34,12 +30,15 @@ function guessLetter(){
 
 function printWord(word, letter){
     // updates the underscore word
-    var blanks = document.getElementById("blanks").innerHTML;
     var newBlanks = "";
-    for (var i = 0; i < word.length; i++){
-        if (word[i] === letter && !hasBeenGuessed(letter)){
+    for (var i = 0; i < word.length; i++) {
+        if (word[i] === letter && !hasBeenGuessed(letter)) {
             // fills in the letter
-            newBlanks += letter;
+            newBlanks += word[i];
+        } else if (word[i] === letter && hasBeenGuessed(letter)){
+            newBlanks += GUESSEDLETTERS[GUESSEDLETTERS.indexOf(letter)];
+        } else if (word[i] !== letter && hasBeenGuessed(letter)){
+            alert("That letter has been guessed already. Please pick another one.");
         } else {
             newBlanks += "_";
         }
@@ -53,12 +52,7 @@ function printWord(word, letter){
 
 // checks if the letter has been guessed already
 function hasBeenGuessed(letter){
-    for (var i = 0; i < GUESSEDLETTERS.length; i++){
-        if (GUESSEDLETTERS[i] === letter){
-            return true;
-        }
-    }
-    return false;
+    return GUESSEDLETTERS.indexOf(letter) !== -1;
 }
 
 function populate(){
@@ -78,4 +72,3 @@ function populate(){
     button.innerHTML = "Go";
     container.appendChild(button);
 }
-
