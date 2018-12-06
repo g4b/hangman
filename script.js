@@ -1,6 +1,7 @@
 var WORDS = ["nitwit", "alien", "seafood", "deuteronomy", "slytherin", "boy", "mathematics", "xylophone", "lazy"];
+var HPWORDS = ["slytherin", "voldemort", "horcrux", "dumbledore", "hogwarts", "mcgonagall", "expelliarmus"];
 var WORD = WORDS[getRandom(WORDS)];
-var GUESSES = WORD.length - 1;
+var GUESSES = WORD.length;
 var GUESSEDLETTERS =[];
 var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 console.log(WORD);
@@ -26,7 +27,7 @@ function guessLetter(){
         alert("You have already guessed that letter. Please pick another one.");
         return null;
     } else {
-        alert("You have used up all of your guesses. Please reload the page and try again.");
+        alert("You have lost. Press 'Play' to try again.");
         return null;
     }
 }
@@ -38,15 +39,15 @@ function printWord(letter){
         if (WORD[i] === letter) {
             // fills in the letter
             newBlanks += letter;
-        } else if (WORD[i] !== letter){
-            if (correctLetter() !== -1){
-                newBlanks += correctLetter();
-            } else {
-                newBlanks += "_";
-            }
+        } else {
+            newBlanks += correctLetter(i);
         }
     }
     document.getElementById("blanks").innerHTML = newBlanks;
+    if (newBlanks === WORD){
+        alert("Congratulations! You won!");
+        return null;
+    }
     // assuming that the letter has not been guessed already, which is validated by hasBeenGuessed
     GUESSEDLETTERS.push(letter);
     document.getElementById("guessList").innerHTML = "Guessed letters: " + GUESSEDLETTERS.toString();
@@ -58,10 +59,20 @@ function hasBeenGuessed(letter){
     return GUESSEDLETTERS.indexOf(letter) !== -1;
 }
 
-function correctLetter(letter){
-    if (hasBeenGuessed(letter)){
-
+function correctLetter(i){
+    var count = 0;
+    for (var j = 0; j < GUESSEDLETTERS.length; j++){
+        if (GUESSEDLETTERS[j] === WORD[i]){
+            count++;
+            var letter = WORD[i];
+        }
     }
+    if (count === 0){
+        return "_";
+    } else {
+        return letter;
+    }
+
 }
 
 function populate(){
@@ -75,9 +86,11 @@ function populate(){
         select.appendChild(option);
     }
     container.appendChild(select);
+
+    var categoryContainer = document.getElementById("selectCategory");
     var button = document.createElement("button");
     button.setAttribute("class", "w3-button w3-round w3-white w3-border w3-border-blue");
-    button.onclick = function () { guessLetter() };
+    button.onclick = function () { chooseCategory() };
     button.innerHTML = "Go";
-    container.appendChild(button);
+    categoryContainer.appendChild(button);
 }
