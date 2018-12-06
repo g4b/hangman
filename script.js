@@ -20,8 +20,7 @@ function startGame(){
 function guessLetter(){
     var letter = document.getElementById("currentLetterGuess").value;
     if (GUESSES > 0 && !hasBeenGuessed(letter)) {
-        GUESSEDLETTERS.push(letter);
-        printWord(WORD, letter);
+        printWord(letter);
         GUESSES--;
     } else if (GUESSES > 0 && hasBeenGuessed(letter)){
         alert("You have already guessed that letter. Please pick another one.");
@@ -39,9 +38,9 @@ function printWord(letter){
         if (WORD[i] === letter) {
             // fills in the letter
             newBlanks += letter;
-        } else if(WORD[i] !== letter){
-            if (correctLetterIndex() !== -1){
-                newBlanks += WORD[correctLetterIndex()];
+        } else if (WORD[i] !== letter){
+            if (correctLetter() !== -1){
+                newBlanks += correctLetter();
             } else {
                 newBlanks += "_";
             }
@@ -49,6 +48,7 @@ function printWord(letter){
     }
     document.getElementById("blanks").innerHTML = newBlanks;
     // assuming that the letter has not been guessed already, which is validated by hasBeenGuessed
+    GUESSEDLETTERS.push(letter);
     document.getElementById("guessList").innerHTML = "Guessed letters: " + GUESSEDLETTERS.toString();
     document.getElementById("guessesRemaining").innerHTML = "Guesses remaining: " + GUESSES;
 }
@@ -58,13 +58,10 @@ function hasBeenGuessed(letter){
     return GUESSEDLETTERS.indexOf(letter) !== -1;
 }
 
-function correctLetterIndex(){
-    for (var i = 0; i < GUESSEDLETTERS.length; i++){
-        if (WORD.includes(GUESSEDLETTERS[i])){
-            return WORD.indexOf(GUESSEDLETTERS[i]);
-        }
+function correctLetter(letter){
+    if (hasBeenGuessed(letter)){
+
     }
-    return -1;
 }
 
 function populate(){
