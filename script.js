@@ -1,31 +1,62 @@
-var WORDS = ["nitwit", "alien", "seafood", "deuteronomy", "slytherin", "boy", "mathematics", "xylophone", "lazy"];
-var HPWORDS = ["slytherin", "voldemort", "horcrux", "dumbledore", "hogwarts", "mcgonagall", "expelliarmus"];
-var WORD = WORDS[getRandom(WORDS)];
-var GUESSES = WORD.length;
+var HP = ["slytherin", "voldemort", "horcrux", "dumbledore", "hogwarts", "mcgonagall", "expelliarmus"];
+var NATIONS = ["armenia", "belarus", "cambodia", "denmark", "estonia", "finland", "georgia", "hungary", "iceland",
+    "jamaica", "kyrgyzstan", "liberia", "mexico", "norway", "oman", "peru", "romania", "suriname", "thailand", "uruguay", "venezuela", "yemen", "zambia"];
+var POLI = ["trump", "merkel", "solberg", "amlo", "netanyahu", "modi", "trudeau", "jinping"];
+var MISC = ["nitwit", "alien", "seafood", "deuteronomy", "boy", "mathematics", "xylophone", "lazy"];
+var WORD;
+var GUESSES;
 var GUESSEDLETTERS =[];
 var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-console.log(WORD);
 
 function getRandom(arr){
    return Math.floor(Math.random() * (arr.length - 1));
 }
 
 function startGame(){
-    populate();
+    var container = document.getElementById("guessBox");
+    var select = document.createElement("select");
+    select.setAttribute("id", "currentLetterGuess");
+    for (var i = 0; i < 26; i++){
+        var option = document.createElement("option");
+        option.value = ALPHABET[i];
+        option.innerHTML = ALPHABET[i];
+        select.appendChild(option);
+    }
+    container.appendChild(select);
+    var button = document.createElement("button");
+    button.onclick = function() {guessLetter()};
+    button.innerHTML = "Guess";
+    button.setAttribute("class", "w3-button w3-round w3-white w3-border w3-border-blue");
+    container.appendChild(button);
+}
+
+function chooseCategory(){
+    var cat = document.getElementById("categories").value;
+    if (cat === "hp"){
+        WORD = HP[getRandom(HP)];
+    } else if (cat === "nations"){
+        WORD = NATIONS[getRandom(NATIONS)];
+    } else if (cat === "poli"){
+        WORD = POLI[getRandom(POLI)];
+    } else {
+        WORD = MISC[getRandom(MISC)];
+    }
+    console.log(cat);
+    console.log(WORD);
+    GUESSES = 10;
     var blanks = document.getElementById("blanks");
+    blanks.innerHTML = "";
     for (var i = 0; i < WORD.length; i++){
         blanks.innerHTML += "_";
     }
 }
 
 function guessLetter(){
-    var letter = document.getElementById("currentLetterGuess").value;
-    if (GUESSES > 0 && !hasBeenGuessed(letter)) {
-        printWord(letter);
+    var select = document.getElementById("currentLetterGuess");
+    if (GUESSES > 0 && !hasBeenGuessed(select.value) /*&& !select.options[ALPHABET.indexOf(select.value)].disabled*/ {
+        printWord(select.value);
         GUESSES--;
-    } else if (GUESSES > 0 && hasBeenGuessed(letter)){
-        alert("You have already guessed that letter. Please pick another one.");
-        return null;
+        select.options[ALPHABET.indexOf(select.value)].disabled = true;
     } else {
         alert("You have lost. Press 'Play' to try again.");
         return null;
@@ -48,7 +79,7 @@ function printWord(letter){
         alert("Congratulations! You won!");
         return null;
     }
-    // assuming that the letter has not been guessed already, which is validated by hasBeenGuessed
+    // assuming that the letter has not been guessed already
     GUESSEDLETTERS.push(letter);
     document.getElementById("guessList").innerHTML = "Guessed letters: " + GUESSEDLETTERS.toString();
     document.getElementById("guessesRemaining").innerHTML = "Guesses remaining: " + GUESSES;
@@ -72,25 +103,4 @@ function correctLetter(i){
     } else {
         return letter;
     }
-
-}
-
-function populate(){
-    var container = document.getElementById("guessBox");
-    var select = document.createElement("select");
-    select.setAttribute("id", "currentLetterGuess");
-    for (var i = 0; i < 26; i++){
-        var option = document.createElement("option");
-        option.value = ALPHABET[i];
-        option.innerHTML = ALPHABET[i];
-        select.appendChild(option);
-    }
-    container.appendChild(select);
-
-    var categoryContainer = document.getElementById("selectCategory");
-    var button = document.createElement("button");
-    button.setAttribute("class", "w3-button w3-round w3-white w3-border w3-border-blue");
-    button.onclick = function () { chooseCategory() };
-    button.innerHTML = "Go";
-    categoryContainer.appendChild(button);
 }

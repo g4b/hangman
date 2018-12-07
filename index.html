@@ -11,14 +11,14 @@
     <h1>Hangman</h1>
 
     <div id="selectCategory">
-        <select id="categories">
-            <option value="hp">Harry Potter</option>
+        <p>Choose a category:</p>
+        <select title="cats" id="categories">
+            <option value=hp>Harry Potter</option>
             <option value="nations">Nations of the World</option>
-            <option value="movies">Movies</option>
-            <option value="poli">Politicians</option>
+            <option value="poli">World Leaders</option>
             <option value="misc">Misc. Words</option>
         </select>
-        <button onc
+        <button onclick="chooseCategory()" class="w3-button w3-round w3-white w3-border w3-border-blue">Start</button>
     </div>
 
     <div id="guessBox"></div>
