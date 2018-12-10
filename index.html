@@ -10,7 +10,7 @@
 <body onload="startGame()">
     <h1>Hangman</h1>
 
-    <div id="selectCategory">
+    <div id="selectCategory" class="w3-container w3-cyan">
         <p>Choose a category:</p>
         <select title="cats" id="categories">
             <option value=hp>Harry Potter</option>
@@ -19,14 +19,17 @@
             <option value="misc">Misc. Words</option>
         </select>
         <button onclick="chooseCategory()" class="w3-button w3-round w3-white w3-border w3-border-blue">Start</button>
-    </div>
+    </div><br>
 
-    <div id="guessBox"></div>
-    <div class="w3-container w3-blue" id="underscoreList">
+    <div id="guessBox">
+        <p>Guess a letter: </p>
+    </div><br>
+
+    <div class="w3-container w3-cyan" id="underscoreList">
         <p id="blanks"></p><br>
     </div>
 
-    <div class="w3-container w3-green" id="letters">
+    <div class="w3-container w3-cyan" id="letters">
         <p id="guessList"></p>
         <p id="guessesRemaining"></p>
     </div>

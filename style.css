@@ -1,8 +1,20 @@
+* {
+    font-family: AppleGothic;
+}
+
 body {
     background-color: black;
 }
 
+button {
+    margin: auto;
+}
+
 h1 {
-    text-align: center;
     color: white;
+    background-color: black;
+}
+
+h1, #guessBox, p, #selectCategory {
+    text-align: center;
 }

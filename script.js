@@ -22,15 +22,20 @@ function startGame(){
         option.innerHTML = ALPHABET[i];
         select.appendChild(option);
     }
+    select.style.visibility = "hidden";
     container.appendChild(select);
     var button = document.createElement("button");
     button.onclick = function() {guessLetter()};
     button.innerHTML = "Guess";
+    button.setAttribute("id", "guessButton");
     button.setAttribute("class", "w3-button w3-round w3-white w3-border w3-border-blue");
+    button.disabled = true;
     container.appendChild(button);
 }
 
 function chooseCategory(){
+    document.getElementById("currentLetterGuess").style.visibility = "visible";
+    document.getElementById("guessButton").disabled = false;
     var cat = document.getElementById("categories").value;
     if (cat === "hp"){
         WORD = HP[getRandom(HP)];
@@ -44,6 +49,7 @@ function chooseCategory(){
     console.log(cat);
     console.log(WORD);
     GUESSES = 10;
+    document.body.style.backgroundImage = "url('dw10.gif')";
     var blanks = document.getElementById("blanks");
     blanks.innerHTML = "";
     for (var i = 0; i < WORD.length; i++){
@@ -53,9 +59,10 @@ function chooseCategory(){
 
 function guessLetter(){
     var select = document.getElementById("currentLetterGuess");
-    if (GUESSES > 0 && !hasBeenGuessed(select.value) /*&& !select.options[ALPHABET.indexOf(select.value)].disabled*/ {
+    if (GUESSES > 0 && !hasBeenGuessed(select.value)) {
         printWord(select.value);
         GUESSES--;
+        document.body.style.backgroundImage = "url('dw" + GUESSES.toString() + ".gif')";
         select.options[ALPHABET.indexOf(select.value)].disabled = true;
     } else {
         alert("You have lost. Press 'Play' to try again.");
@@ -76,7 +83,7 @@ function printWord(letter){
     }
     document.getElementById("blanks").innerHTML = newBlanks;
     if (newBlanks === WORD){
-        alert("Congratulations! You won!");
+        alert("Congratulations! You won! Press 'Start' to play again.");
         return null;
     }
     // assuming that the letter has not been guessed already
