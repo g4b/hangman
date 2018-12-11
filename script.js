@@ -1,11 +1,12 @@
 var HP = ["slytherin", "voldemort", "horcrux", "dumbledore", "hogwarts", "mcgonagall", "expelliarmus"];
 var NATIONS = ["armenia", "belarus", "cambodia", "denmark", "estonia", "finland", "georgia", "hungary", "iceland",
     "jamaica", "kyrgyzstan", "liberia", "mexico", "norway", "oman", "peru", "romania", "suriname", "thailand", "uruguay", "venezuela", "yemen", "zambia"];
-var POLI = ["trump", "merkel", "solberg", "amlo", "netanyahu", "modi", "trudeau", "jinping"];
+var POLI = ["trump", "merkel", "gorbachev", "modi", "trudeau", "jinping", "putin", "abe", "kirchner", "allende", "mobutu",
+    "mandela", "nasser", "nehru", "khomeini", "minh", "moctezuma", "honecker", "thatcher", "stoltenberg", "tfwala"];
 var MISC = ["nitwit", "alien", "seafood", "deuteronomy", "boy", "mathematics", "xylophone", "lazy"];
 var WORD;
 var GUESSES;
-var GUESSEDLETTERS =[];
+var GUESSEDLETTERS;
 var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
 function getRandom(arr){
@@ -46,9 +47,15 @@ function chooseCategory(){
     } else {
         WORD = MISC[getRandom(MISC)];
     }
-    console.log(cat);
     console.log(WORD);
     GUESSES = 10;
+    GUESSEDLETTERS = [];
+    document.getElementById("guessList").innerHTML = "Guessed letters: " + GUESSEDLETTERS.toString();
+    document.getElementById("guessesRemaining").innerHTML = "Guesses remaining: " + GUESSES;
+    var select = document.getElementById("currentLetterGuess");
+    for (var i = 0; i < 26; i++){
+        select.options[i].disabled = false;
+    }
     document.body.style.backgroundImage = "url('dw10.gif')";
     var blanks = document.getElementById("blanks");
     blanks.innerHTML = "";
@@ -84,6 +91,7 @@ function printWord(letter){
     document.getElementById("blanks").innerHTML = newBlanks;
     if (newBlanks === WORD){
         alert("Congratulations! You won! Press 'Start' to play again.");
+        document.getElementById("guessButton").disabled = true;
         return null;
     }
     // assuming that the letter has not been guessed already
