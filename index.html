@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
-<body onload="startGame()">
+<body onload="setup()">
     <h1>Doctor Who Word Guess (has nothing to do with Doctor Who)</h1>
 
     <div id="selectCategory" class="w3-container w3-cyan">
@@ -18,7 +18,7 @@
             <option value="poli">World Leaders</option>
             <option value="misc">Misc. Words</option>
         </select>
-        <button onclick="chooseCategory()" class="w3-button w3-round w3-white w3-border w3-border-blue">Start</button>
+        <button onclick="startGame()" class="w3-button w3-round w3-white w3-border w3-border-blue">Start</button>
     </div><br>
 
     <div class="w3-container w3-cyan" id="guessBox">

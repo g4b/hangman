@@ -7,21 +7,24 @@ var MISC = ["nitwit", "alien", "seafood", "deuteronomy", "boy", "mathematics", "
 var WORD;
 var GUESSES;
 var GUESSEDLETTERS;
-var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+var ALPHABET = " abcdefghijklmnopqrstuvwxyz";
 
 function getRandom(arr){
    return Math.floor(Math.random() * (arr.length - 1));
 }
 
-function startGame(){
+function setup(){
     var container = document.getElementById("guessBox");
     var select = document.createElement("select");
     select.setAttribute("id", "currentLetterGuess");
-    for (var i = 0; i < 26; i++){
+    for (var i = 0; i < 27; i++){
         var option = document.createElement("option");
         option.value = ALPHABET[i];
         option.innerHTML = ALPHABET[i];
         select.appendChild(option);
+        if (i === 0) {
+            option.disabled = true;
+        }
     }
     select.style.visibility = "hidden";
     container.appendChild(select);
@@ -34,7 +37,7 @@ function startGame(){
     container.appendChild(button);
 }
 
-function chooseCategory(){
+function startGame(){
     document.getElementById("currentLetterGuess").style.visibility = "visible";
     document.getElementById("guessButton").disabled = false;
     var cat = document.getElementById("categories").value;
@@ -59,18 +62,18 @@ function chooseCategory(){
     document.body.style.backgroundImage = "url('dw10.gif')";
     var blanks = document.getElementById("blanks");
     blanks.innerHTML = "";
-    for (var i = 0; i < WORD.length; i++){
+    for (var j = 0; j < WORD.length; j++){
         blanks.innerHTML += "_";
     }
 }
 
 function guessLetter(){
     var select = document.getElementById("currentLetterGuess");
-    if (GUESSES > 0 && !hasBeenGuessed(select.value)) {
+    var optionIndex = ALPHABET.indexOf(select.value);
+    if (GUESSES > 0) {
         printWord(select.value);
-        GUESSES--;
         document.body.style.backgroundImage = "url('dw" + GUESSES.toString() + ".gif')";
-        select.options[ALPHABET.indexOf(select.value)].disabled = true;
+        select.options[optionIndex].disabled = true;
     } else {
         alert("You have lost. Press 'Play' to try again.");
         return null;
@@ -79,6 +82,11 @@ function guessLetter(){
 
 function printWord(letter){
     // updates the underscore word
+    if (hasBeenGuessed(letter)) {
+        alert("You have already guessed that letter. Please pick another one.");
+        return null;
+    }
+    var blanks = document.getElementById("blanks");
     var newBlanks = "";
     for (var i = 0; i < WORD.length; i++) {
         if (WORD[i] === letter) {
@@ -88,7 +96,10 @@ function printWord(letter){
             newBlanks += correctLetter(i);
         }
     }
-    document.getElementById("blanks").innerHTML = newBlanks;
+    if (blanks.innerHTML === newBlanks){
+        GUESSES--;
+    }
+    blanks.innerHTML = newBlanks;
     if (newBlanks === WORD){
         alert("Congratulations! You won! Press 'Start' to play again.");
         document.getElementById("guessButton").disabled = true;
